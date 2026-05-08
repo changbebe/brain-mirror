@@ -1,7 +1,7 @@
-import { createServerSupabaseClient } from './supabase-server'
+import { createAdminClient } from './supabase-admin'
 
 export async function getTodayFocus() {
-  const supabase = await createServerSupabaseClient()
+  const supabase = createAdminClient()
 
   const [inboxRes, thoughtsRes] = await Promise.all([
     supabase
@@ -33,7 +33,7 @@ export async function getTodayFocus() {
 }
 
 export async function getProgressMap() {
-  const supabase = await createServerSupabaseClient()
+  const supabase = createAdminClient()
 
   const { data } = await supabase
     .from('thoughts')
@@ -64,7 +64,7 @@ export async function getProgressMap() {
 }
 
 export async function getInspirationPool() {
-  const supabase = await createServerSupabaseClient()
+  const supabase = createAdminClient()
 
   // Show all recent thoughts as inspiration pool
   const { data } = await supabase
@@ -77,7 +77,7 @@ export async function getInspirationPool() {
 }
 
 export async function getAgentDiary() {
-  const supabase = await createServerSupabaseClient()
+  const supabase = createAdminClient()
 
   // Check if agent_diary table exists by attempting a query
   const { data, error } = await supabase

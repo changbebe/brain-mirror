@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { Suspense } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import TodayFocus from '@/components/TodayFocus'
