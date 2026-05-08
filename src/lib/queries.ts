@@ -14,7 +14,6 @@ export async function getTodayFocus() {
     supabase
       .from('thoughts')
       .select('id, raw_content, ai_summary, category, topic, weight, created_at')
-      .in('weight', ['principle', 'core_belief'])
       .gte('created_at', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString())
       .order('created_at', { ascending: false })
       .limit(10),
@@ -67,24 +66,14 @@ export async function getProgressMap() {
 export async function getInspirationPool() {
   const supabase = await createServerSupabaseClient()
 
+  // Show all recent thoughts as inspiration pool
   const { data } = await supabase
     .from('thoughts')
     .select('id, raw_content, ai_summary, category, topic, created_at')
-    .eq('category', '靈感類')
     .order('created_at', { ascending: false })
     .limit(20)
 
-  if (!data || data.length === 0) {
-    // fallback: 取最新的筆記類
-    const { data: fallback } = await supabase
-      .from('thoughts')
-      .select('id, raw_content, ai_summary, category, topic, created_at')
-      .order('created_at', { ascending: false })
-      .limit(20)
-    return fallback ?? []
-  }
-
-  return data
+  return data ?? []
 }
 
 export async function getAgentDiary() {
