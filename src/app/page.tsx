@@ -1,42 +1,48 @@
+import { Suspense } from 'react'
+import { Skeleton } from '@/components/ui/skeleton'
+import TodayFocus from '@/components/TodayFocus'
+import ProgressMap from '@/components/ProgressMap'
+import InspirationPool from '@/components/InspirationPool'
+import AgentDiary from '@/components/AgentDiary'
+
+function SectionSkeleton() {
+  return (
+    <div className="space-y-3">
+      <Skeleton className="h-4 w-24" />
+      <Skeleton className="h-20 w-full" />
+      <Skeleton className="h-20 w-full" />
+    </div>
+  )
+}
+
 export default function DashboardPage() {
+  const now = new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' })
+
   return (
     <main className="max-w-5xl mx-auto px-6 py-8 space-y-10">
-      <header>
-        <h1 className="text-2xl font-bold text-zinc-900">brain-mirror</h1>
-        <p className="text-sm text-zinc-500 mt-1">第二大腦唯讀儀表板</p>
+      <header className="flex items-end justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-zinc-900">brain-mirror</h1>
+          <p className="text-sm text-zinc-500 mt-1">第二大腦唯讀儀表板</p>
+        </div>
+        <p className="text-xs text-zinc-400">{now}</p>
       </header>
 
-      {/* 區塊 1：今日焦點 */}
-      <section>
-        <h2 className="text-lg font-semibold text-zinc-800 mb-4">今日焦點</h2>
-        <div className="rounded-lg border border-zinc-200 p-6 text-sm text-zinc-400">
-          載入中...
-        </div>
-      </section>
+      <Suspense fallback={<SectionSkeleton />}>
+        <TodayFocus />
+      </Suspense>
 
-      {/* 區塊 2：進度地圖 */}
-      <section>
-        <h2 className="text-lg font-semibold text-zinc-800 mb-4">進度地圖</h2>
-        <div className="rounded-lg border border-zinc-200 p-6 text-sm text-zinc-400">
-          載入中...
-        </div>
-      </section>
+      <Suspense fallback={<SectionSkeleton />}>
+        <ProgressMap />
+      </Suspense>
 
-      {/* 區塊 3：靈感池 */}
-      <section>
-        <h2 className="text-lg font-semibold text-zinc-800 mb-4">靈感池</h2>
-        <div className="rounded-lg border border-zinc-200 p-6 text-sm text-zinc-400">
-          載入中...
-        </div>
-      </section>
+      <Suspense fallback={<SectionSkeleton />}>
+        <InspirationPool />
+      </Suspense>
 
-      {/* 區塊 4：AI 日誌 */}
-      <section>
-        <h2 className="text-lg font-semibold text-zinc-800 mb-4">AI 日誌</h2>
-        <div className="rounded-lg border border-zinc-200 p-6 text-sm text-zinc-400">
-          載入中...
-        </div>
-      </section>
+      <Suspense fallback={<SectionSkeleton />}>
+        <AgentDiary />
+      </Suspense>
     </main>
-  );
+  )
 }
